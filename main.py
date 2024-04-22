@@ -3,27 +3,266 @@ import queue
 import math
 import heapq
 import math
+import Map as Map
 # python3 main.py searchType, -A city -B city fileName
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 main.py searchType, -A city -B city mapFile")
-        return
-    cities, edges, coords = parseFile(sys.argv[-1])
     start, goal = getTargets(sys.argv)
+    cities, edges, coords = parseFile(sys.argv[-1])
+    map = Map.Map(edges, cities, coords)
+    if '-A' not in sys.argv and '-B' not in sys.argv:
+        return defaultSearches(sys.argv,map)
+    # print("Cities: ", cities)
+    # print("Edges: ", edges)
+    # print("Coords: ", coords)
     searchType = sys.argv[1]
     if searchType == "astar":
-        astar(cities,edges,coords,start,goal)
+        aPath, aCost, aNodesExplored, aNodesExpanded, aNodesMaintained = astar(map, start, goal)
+        print(start+" to "+goal)
+        print("A* Path: ", aPath)
+        print("A* Cost: ", aCost)
+        print("A* Nodes Explored: ", aNodesExplored)
+        print("A* Nodes Expanded: ", aNodesExpanded)
+        print("A* Nodes Maintained: ", aNodesMaintained)
     elif searchType == "dls":
-        dls(cities,edges,coords,start,goal, sys.argv[2])
+        if int(sys.argv[2].isdigit()):
+            dPath, dCost, dNodesExplored, dNodesExpanded, dNodesMaintained = dls(map, start, goal, sys.argv[2])
+        else:
+            dPath, dCost, dNodesExplored, dNodesExpanded, dNodesMaintained = dls(map, start, goal, 20)
+        print(start+" to "+goal)
+        print("DLS Path: ", dPath)
+        print("DLS Cost: ", dCost)
+        print("DLS Nodes Explored: ", dNodesExplored)
+        print("DLS Nodes Expanded: ", dNodesExpanded)
+        print("DLS Nodes Maintained: ", dNodesMaintained)
     elif searchType == "ucs":
-        ucs(cities,edges,coords,start,goal)
+        uPath, uCost, uNodesExplored, uNodesExpanded, uNodesMaintained = ucs(map ,start, goal)
+        print(start+" to "+goal)
+        print("UCS Path: ", uPath)
+        print("UCS Cost: ", uCost)
+        print("UCS Nodes Explored: ", uNodesExplored)   
+        print("UCS Nodes Expanded: ", uNodesExpanded)
+        print("UCS Nodes Maintained: ", uNodesMaintained)
     else:
-        bfs(cities,edges,coords,start,goal)
-    # print(edges)
-    # print(cities)
-    # print(coords)
-    # print(start)
-    # print(goal)
+        bPath, bCost, bNodesExplored, bNodesExpanded, bNodesMaintained = bfs(map, start, goal)
+        print(start+" to "+goal)
+        print("BFS Path: ", bPath)
+        print("BFS Cost: ", bCost)
+        print("BFS Nodes Explored: ", bNodesExplored)
+        print("BFS Nodes Expanded: ", bNodesExpanded)
+        print("BFS Nodes Maintained: ", bNodesMaintained)
+
+def defaultSearches(argv,map):
+    cities, edges, coords = parseFile(argv[-1])
+    paths = ["brest-nice", 'montpellier-calais', 'strasbourg-bordeaux', 'paris-grenoble', 'grenoble-paris', 'brest-grenoble', 'nice-nantes', 'caen-strasbourg']
+    aAvgCost, aAvgNodesExplored, aAvgNodesExpanded, aAvgNodesMaintained  = 0, 0, 0, 0
+    bAvgCost, bAvgNodesExplored, bAvgNodesExpanded, bAvgNodesMaintained = 0, 0, 0, 0
+    dAvgCost, dAvgNodesExplored, dAvgNodesExpanded , dAvgNodesMaintained = 0, 0, 0, 0
+    uAvgCost, uAvgNodesExplored, uAvgNodesExpanded, uAvgNodesMaintained = 0, 0, 0, 0
+    aWins, bWins, dWins, uWins = 0,0,0,0
+    with open('solutions.txt', 'w') as file:
+        for path in paths:
+            
+            start = path.split("-")[0]
+            goal = path.split("-")[1]
+            aPath, aCost, aNodesExplored, aNodesExpanded, aNodesMaintained = astar(map,start,goal)
+            bPath, bCost, bNodesExplored, bNodesExpanded, bNodesMaintained = bfs(map,start,goal)
+            dPath, dCost, dNodesExplored, dNodesExpanded, dNodesMaintained = dls(map,start,goal, 30)
+            uPath, uCost, uNodesExplored, uNodesExpanded, uNodesMaintained = ucs(map,start,goal)
+            if aNodesExplored <= bNodesExplored and aNodesExplored <= dNodesExplored and aNodesExplored <= uNodesExplored:
+                aWins += 1
+            if bNodesExplored <= aNodesExplored and bNodesExplored <= dNodesExplored and bNodesExplored <= uNodesExplored:
+                bWins += 1
+            if dNodesExplored <= aNodesExplored and dNodesExplored <= bNodesExplored and dNodesExplored <= uNodesExplored:
+                dWins += 1
+            if uNodesExplored <= aNodesExplored and uNodesExplored<= bNodesExplored and uNodesExplored <= dNodesExplored:
+                uWins += 1
+            aAvgCost += aCost
+            aAvgNodesExplored += aNodesExplored
+            aAvgNodesExpanded += aNodesExpanded
+            aAvgNodesMaintained += aNodesMaintained
+            bAvgCost += bCost
+            bAvgNodesExplored += bNodesExplored
+            bAvgNodesExpanded += bNodesExpanded
+            bAvgNodesMaintained += bNodesMaintained
+            dAvgCost += dCost
+            dAvgNodesExplored += dNodesExplored
+            dAvgNodesExpanded += dNodesExpanded
+            dAvgNodesMaintained += dNodesMaintained
+            uAvgCost += uCost
+            uAvgNodesExplored += uNodesExplored
+            uAvgNodesExpanded += uNodesExpanded
+            uAvgNodesMaintained += uNodesMaintained
+            file.write(path+":\n")
+            file.write("    A* Path: "+str(aPath)+"\n")
+            file.write("    A* Cost: "+str(aCost)+"\n")
+            file.write("    A* Nodes Explored: "+str(aNodesExplored)+"\n")
+            file.write("    A* Nodes Expanded: "+str(aNodesExpanded)+"\n")
+            file.write("    A* Nodes Maintained: "+str(aNodesMaintained)+"\n")
+            file.write("\n")
+            file.write("    BFS Path: "+str(bPath)+"\n")
+            file.write("    BFS Cost: "+str(bCost)+"\n")
+            file.write("    BFS Nodes Explored: "+str(bNodesExplored)+"\n")
+            file.write("    BFS Nodes Expanded: "+str(bNodesExpanded)+"\n")
+            file.write("    BFS Nodes Maintained: "+str(bNodesMaintained)+"\n")
+            file.write("\n")
+            file.write("    DLS Path: "+str(dPath)+"\n")
+            file.write("    DLS Cost: "+str(dCost)+"\n")
+            file.write("    DLS Nodes Explored: "+str(dNodesExplored)+"\n")
+            file.write("    DLS Nodes Expanded: "+str(dNodesExpanded)+"\n")
+            file.write("    DLS Nodes Maintained: "+str(dNodesMaintained)+"\n")
+            file.write("\n")
+            file.write("    UCS Path: "+str(uPath)+"\n")
+            file.write("    UCS Cost: "+str(uCost)+"\n")
+            file.write("    UCS Nodes Explored: "+str(uNodesExplored)+"\n")
+            file.write("    UCS Nodes Expanded: "+str(uNodesExpanded)+"\n")
+            file.write("    UCS Nodes Maintained: "+str(uNodesMaintained)+"\n")
+            file.write("\n")
+            file.write("\n")
+    aAvgCost = aAvgCost/len(paths)
+    aAvgNodesExplored = aAvgNodesExplored/len(paths)
+    aAvgNodesExpanded = aAvgNodesExpanded/len(paths)
+    aAvgNodesMaintained = aAvgNodesMaintained/len(paths)
+    bAvgCost = bAvgCost/len(paths)
+    bAvgNodesExplored = bAvgNodesExplored/len(paths)
+    bAvgNodesExpanded = bAvgNodesExpanded/len(paths)
+    bAvgNodesMaintained = bAvgNodesMaintained/len(paths)
+    dAvgCost = dAvgCost/len(paths)
+    dAvgNodesExplored = dAvgNodesExplored/len(paths)
+    dAvgNodesExpanded = dAvgNodesExpanded/len(paths)
+    dAvgNodesMaintained = dAvgNodesMaintained/len(paths)
+    uAvgCost = uAvgCost/len(paths)
+    uAvgNodesExplored = uAvgNodesExplored/len(paths)
+    uAvgNodesExpanded = uAvgNodesExpanded/len(paths)
+    uAvgNodesMaintained = uAvgNodesMaintained/len(paths)
+    with open('READEME.txt', 'w') as file:
+        file.write("A* Average Cost: "+str(aAvgCost)+"\n")
+        file.write("A* Average Nodes Explored: "+str(aAvgNodesExplored)+"\n")
+        file.write("A* Average Nodes Expanded: "+str(aAvgNodesExpanded)+"\n")
+        file.write("A* Average Nodes Maintained: "+str(aAvgNodesMaintained)+"\n")
+        file.write("A* Wins: "+str(aWins)+"\n")
+        file.write("\n")
+        file.write("BFS Average Cost: "+str(bAvgCost)+"\n")
+        file.write("BFS Average Nodes Explored: "+str(bAvgNodesExplored)+"\n")
+        file.write("BFS Average Nodes Expanded: "+str(bAvgNodesExpanded)+"\n")
+        file.write("BFS Average Nodes Maintained: "+str(bAvgNodesMaintained)+"\n")
+        file.write("BFS Wins: "+str(bWins)+"\n")
+        file.write("\n")
+        file.write("DLS Average Cost: "+str(dAvgCost)+"\n")
+        file.write("DLS Average Nodes Explored: "+str(dAvgNodesExplored)+"\n")
+        file.write("DLS Average Nodes Expanded: "+str(dAvgNodesExpanded)+"\n")
+        file.write("DLS Average Nodes Maintained: "+str(dAvgNodesMaintained)+"\n")
+        file.write("DLS Wins: "+str(dWins)+"\n")
+        file.write("\n")
+        file.write("UCS Average Cost: "+str(uAvgCost)+"\n")
+        file.write("UCS Average Nodes Explored: "+str(uAvgNodesExplored)+"\n")
+        file.write("UCS Average Nodes Expanded: "+str(uAvgNodesExpanded)+"\n")
+        file.write("UCS Average Nodes Maintained: "+str(uAvgNodesMaintained)+"\n")
+        file.write("UCS Wins: "+str(uWins)+"\n")
+        file.write("\n")
+
+#Source wikipedia: https://en.wikipedia.org/wiki/A*_search_algorithm
+def astar(map, start, goal):
+    frontier = queue.PriorityQueue()
+    frontier.put((0, start))
+    visited = []
+    cameFrom = {}
+    gScore = {}
+    gScore[start] = 0
+    fScore = {}
+    fScore[start] = map.getHeuristic(start, goal)
+    numNodesExpanded = 0
+    numNodesMaintained = 1
+    while not frontier.empty():
+        current = frontier.get()[1]
+        numNodesMaintained -= 1
+        if current == goal:
+            return map.reconstructPath(cameFrom, current), map.getCost(cameFrom, current, start), len(visited), numNodesExpanded, numNodesMaintained
+        visited.append(current)
+        for neighbor in map.getNeighbors(current)[0]:
+            tempGScore = gScore[current] + int(map.getEdgeCost(current, neighbor))
+            if gScore.get(neighbor, None) is None or tempGScore < gScore[neighbor]:
+                if neighbor not in gScore:
+                    numNodesExpanded += 1
+                cameFrom[neighbor] = current
+                gScore[neighbor] = tempGScore
+                fScore[neighbor] = gScore[neighbor] + map.getHeuristic(neighbor, goal)
+                if neighbor not in visited:
+                    frontier.put((fScore[neighbor], neighbor))
+                    numNodesMaintained += 1
+    print("No Path Found")
+    return None, None, None, None, None
+
+def bfs(map, start, goal):
+    numNodesMaintained = 1
+    numNodesExpanded = 0
+    frontier = []
+    visited = []
+    frontier.append(start)
+    cameFrom = {}
+    while len(frontier) > 0:
+        current = frontier.pop()
+        numNodesMaintained -=1
+        if current == goal:
+            return map.reconstructPath(cameFrom, current), map.getCost(cameFrom, current, start), len(visited), len(cameFrom), numNodesMaintained
+        if current not in visited:
+            visited.append(current)
+            for neighbor in map.getNeighbors(current)[0]:
+                if neighbor not in visited:
+                    frontier.append(neighbor)
+                    numNodesMaintained += 1
+                    numNodesExpanded += 1
+                    cameFrom[neighbor] = current
+    return None, None, None, None, None
+
+def dls(map, start, goal, maxDepth):
+    numNodesMaintained = 1
+    cameFrom = {}
+    depth = 0
+    frontier = []
+    visited = []
+    frontier.append(start)
+    while len(frontier) > 0:
+        current = frontier.pop()
+        numNodesMaintained -= 1
+        if current == goal:
+            return map.reconstructPath(cameFrom, current), map.getCost(cameFrom, current, start), len(visited), len(cameFrom), numNodesMaintained
+        if current not in visited:
+            visited.append(current)
+            for i in range(len(map.getNeighbors(current)[0])):
+                if map.getNeighbors(current)[0][i] not in visited:
+                    frontier.append(map.getNeighbors(current)[0][i])
+                    numNodesMaintained += 1
+                    cameFrom[map.getNeighbors(current)[0][i]] = current
+
+        if depth >= int(maxDepth):
+            print("Max Depth Reached")
+            return None, None, None, None, None
+        depth += 1
+
+def ucs(map, start, goal):
+    numNodesMaintained = 1
+    frontier = []
+    heapq.heappush(frontier, (0, start))
+    visited = []
+    cameFrom = {}
+    gScore = {}
+    gScore[start] = 0
+    while frontier:
+        cost, current = heapq.heappop(frontier)
+        numNodesMaintained -= 1
+        if current not in visited:
+            if current == goal:
+                return map.reconstructPath(cameFrom, current), map.getCost(cameFrom, current, start), len(visited), len(cameFrom), numNodesMaintained
+            visited.append(current)
+            for neighbor in map.getNeighbors(current)[0]:
+                tempGScore = gScore[current] + int(map.getEdgeCost(current, neighbor))
+                if gScore.get(neighbor, None) is None or tempGScore < gScore[neighbor]:
+                    cameFrom[neighbor] = current
+                    gScore[neighbor] = tempGScore
+                    heapq.heappush(frontier, (gScore[neighbor], neighbor))
+                    numNodesMaintained += 1
+    print("No Path Found")
+    return None, None, None, None, None
 
 def getTargets(args):
     start = ""
@@ -35,8 +274,6 @@ def getTargets(args):
             goal = sys.argv[arg+1]
     
     return start, goal
-
-
 
 def parseFile(fileName):
     cities = []
@@ -57,95 +294,6 @@ def parseFile(fileName):
                 else:
                     edges[currentCity][1].append(paths[i]) # Add the cost
     return cities, edges, coords
-
-
-def astar(cities,edges,coords,start,goal):
-    frontier = queue.PriorityQueue()
-    visited = []
-    frontier.put((0, start)) 
-    currentDist = 0
-    while not frontier.empty():
-        weight, current = frontier.get()
-
-        if current == goal:
-            print(current+": Goal Found")
-            return
-        print("Current: ", current)
-        if current not in visited:
-            visited.append(current)
-            for i in range(len(edges[current][0])):
-                h = getHeuristic(coords[edges[current][0][i]], coords[goal])
-                g = float(edges[current][1][i])
-                city = edges[current][0][i]
-                frontier.put((g+h, city))  
-
-def getHeuristic(start, goal):
-    return math.sqrt((float(start[0])-float(goal[0]))**2 + (float(start[1])-float(goal[1]))**2)
-
-def bfs(cities,edges,coords,start,goal):
-    frontier = queue.Queue()
-    visited = []
-    frontier.put(start)
-    while not frontier.empty():
-        current = frontier.get()
-        if current == goal:
-            print(current+": Goal Found")
-            return
-        if current not in visited:
-            visited.append(current)
-            for i in range(len(edges[current][0])):
-                frontier.put(edges[current][0][i])
-
-
-def dls(cities,edges,coords,start,goal, maxDepth):
-    depth = 0
-    frontier = queue.Queue()
-    visited = []
-    frontier.put(start)
-    while not frontier.empty():
-        current = frontier.get()
-        print("Current: ", current)
-        if current == goal:
-            print(current+": Goal Found")
-            return
-        if current not in visited:
-            visited.append(current)
-            for i in range(len(edges[current][0])):
-                if edges[current][0][i] not in visited:
-                    frontier.put(edges[current][0][i])
-
-        if depth == maxDepth:
-            print("Max Depth Reached")
-            return
-        depth += 1
-
-
-
-def ucs(cities,edges,coords,start,goal):
-    frontier = []
-    visited = []
-    costs = {}
-    frontier.append(start)
-    while frontier:
-        current = frontier.pop(0)
-        if current not in visited:
-            visited.append(current)
-            if current == goal:
-                print(current+": Goal Found")
-                return
-            print("Current: ", current)
-            for i in range(len(edges[current][0])):
-                child = edges[current][0][i]
-                child_cost = edges[current][1][i]
-                if child not in visited:
-                    if child in frontier:
-                        index = frontier.index(child)
-                        if costs[child] > child_cost:
-                            frontier[index] = child
-                            costs[child] = child_cost
-                    else:
-                        frontier.append(child)
-                        costs[child] = child_cost
 
 if __name__ == "__main__":
     main()
