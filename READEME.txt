@@ -1,0 +1,36 @@
+A* Average Cost: 1197.125
+A* Average Nodes Explored: 11.5
+A* Average Nodes Expanded: 13.0
+A* Average Nodes Maintained: 5.25
+A* Wins: 3
+
+BFS Average Cost: 2491.125
+BFS Average Nodes Explored: 11.5
+BFS Average Nodes Expanded: 14.625
+BFS Average Nodes Maintained: 11.375
+BFS Wins: 2
+
+DLS Average Cost: 2491.125
+DLS Average Nodes Explored: 11.5
+DLS Average Nodes Expanded: 14.625
+DLS Average Nodes Maintained: 11.375
+DLS Wins: 2
+
+UCS Average Cost: 1197.125
+UCS Average Nodes Explored: 10.875
+UCS Average Nodes Expanded: 14.0
+UCS Average Nodes Maintained: 5.25
+UCS Wins: 4
+
+
+It seems like UCS was the most successful out of these algorithms,
+with A* in a close second. This occurs due to the small size of out map, 
+if we were to run this in a larger map, the A* search would take a more direct 
+approach while the UCS would slowly wander through nodes until it made its way to 
+the goal. BFS and DLS had the exact same results, this is also due to the 
+limited size of out map, BFS excels here while DLS is not in the propper environment
+for its hybrid algorithm to outperform others. A* is great on large complex maps, 
+BFS is generally okay on all graphs, DLS is good in trees of limited graphs
+where the target is most likely far from the start, but also not at the very end.
+UCS, our most successful excells in graphs like this with limited nodes
+and few outlying weights. 

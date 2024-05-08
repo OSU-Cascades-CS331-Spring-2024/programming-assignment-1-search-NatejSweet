@@ -1,0 +1,208 @@
+brest-nice:
+    A* Path: ['brest', 'rennes', 'nantes', 'limoges', 'paris', 'dijon', 'lyon', 'avignon', 'marseille', 'nice']
+    A* Cost: 2107
+    A* Nodes Explored: 25
+    A* Nodes Expanded: 17
+    A* Nodes Maintained: 0
+
+    BFS Path: ['brest', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris', 'caen', 'calais', 'nancy', 'dijon', 'lyon', 'avignon', 'marseille', 'nice']
+    BFS Cost: 3651
+    BFS Nodes Explored: 15
+    BFS Nodes Expanded: 17
+    BFS Nodes Maintained: 13
+
+    DLS Path: ['brest', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris', 'caen', 'calais', 'nancy', 'dijon', 'lyon', 'avignon', 'marseille', 'nice']
+    DLS Cost: 3651
+    DLS Nodes Explored: 15
+    DLS Nodes Expanded: 17
+    DLS Nodes Maintained: 13
+
+    UCS Path: ['brest', 'rennes', 'nantes', 'limoges', 'paris', 'dijon', 'lyon', 'avignon', 'marseille', 'nice']
+    UCS Cost: 2107
+    UCS Nodes Explored: 17
+    UCS Nodes Expanded: 17
+    UCS Nodes Maintained: 0
+
+
+montpellier-calais:
+    A* Path: ['montpellier', 'avignon', 'lyon', 'dijon', 'nancy', 'calais']
+    A* Cost: 1214
+    A* Nodes Explored: 9
+    A* Nodes Expanded: 16
+    A* Nodes Maintained: 10
+
+    BFS Path: ['montpellier', 'toulouse', 'limoges', 'paris', 'caen', 'calais']
+    BFS Cost: 1529
+    BFS Nodes Explored: 9
+    BFS Nodes Expanded: 13
+    BFS Nodes Maintained: 9
+
+    DLS Path: ['montpellier', 'toulouse', 'limoges', 'paris', 'caen', 'calais']
+    DLS Cost: 1529
+    DLS Nodes Explored: 9
+    DLS Nodes Expanded: 13
+    DLS Nodes Maintained: 9
+
+    UCS Path: ['montpellier', 'avignon', 'lyon', 'dijon', 'nancy', 'calais']
+    UCS Cost: 1214
+    UCS Nodes Explored: 7
+    UCS Nodes Expanded: 13
+    UCS Nodes Maintained: 8
+
+
+strasbourg-bordeaux:
+    A* Path: ['strasbourg', 'nancy', 'paris', 'limoges', 'bordeaux']
+    A* Cost: 1123
+    A* Nodes Explored: 5
+    A* Nodes Expanded: 11
+    A* Nodes Maintained: 7
+
+    BFS Path: ['strasbourg', 'nancy', 'calais', 'caen', 'rennes', 'nantes', 'bordeaux']
+    BFS Cost: 1634
+    BFS Nodes Explored: 6
+    BFS Nodes Expanded: 10
+    BFS Nodes Maintained: 8
+
+    DLS Path: ['strasbourg', 'nancy', 'calais', 'caen', 'rennes', 'nantes', 'bordeaux']
+    DLS Cost: 1634
+    DLS Nodes Explored: 6
+    DLS Nodes Expanded: 10
+    DLS Nodes Maintained: 8
+
+    UCS Path: ['strasbourg', 'nancy', 'paris', 'limoges', 'bordeaux']
+    UCS Cost: 1123
+    UCS Nodes Explored: 7
+    UCS Nodes Expanded: 11
+    UCS Nodes Maintained: 5
+
+
+paris-grenoble:
+    A* Path: ['paris', 'dijon', 'lyon', 'grenoble']
+    A* Cost: 621
+    A* Nodes Explored: 15
+    A* Nodes Expanded: 15
+    A* Nodes Maintained: 4
+
+    BFS Path: ['paris', 'caen', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'lyon', 'avignon', 'grenoble']
+    BFS Cost: 2294
+    BFS Nodes Explored: 16
+    BFS Nodes Expanded: 17
+    BFS Nodes Maintained: 11
+
+    DLS Path: ['paris', 'caen', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'lyon', 'avignon', 'grenoble']
+    DLS Cost: 2294
+    DLS Nodes Explored: 16
+    DLS Nodes Expanded: 17
+    DLS Nodes Maintained: 11
+
+    UCS Path: ['paris', 'dijon', 'lyon', 'grenoble']
+    UCS Cost: 621
+    UCS Nodes Explored: 13
+    UCS Nodes Expanded: 15
+    UCS Nodes Maintained: 4
+
+
+grenoble-paris:
+    A* Path: ['grenoble', 'lyon', 'dijon', 'paris']
+    A* Cost: 625
+    A* Nodes Explored: 3
+    A* Nodes Expanded: 7
+    A* Nodes Maintained: 4
+
+    BFS Path: ['grenoble', 'lyon', 'dijon', 'nancy', 'calais', 'caen', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris']
+    BFS Cost: 2925
+    BFS Nodes Explored: 11
+    BFS Nodes Expanded: 15
+    BFS Nodes Maintained: 14
+
+    DLS Path: ['grenoble', 'lyon', 'dijon', 'nancy', 'calais', 'caen', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris']
+    DLS Cost: 2925
+    DLS Nodes Explored: 11
+    DLS Nodes Expanded: 15
+    DLS Nodes Maintained: 14
+
+    UCS Path: ['grenoble', 'lyon', 'dijon', 'paris']
+    UCS Cost: 625
+    UCS Nodes Explored: 9
+    UCS Nodes Expanded: 13
+    UCS Nodes Maintained: 6
+
+
+brest-grenoble:
+    A* Path: ['brest', 'rennes', 'nantes', 'limoges', 'paris', 'dijon', 'lyon', 'grenoble']
+    A* Cost: 1689
+    A* Nodes Explored: 17
+    A* Nodes Expanded: 15
+    A* Nodes Maintained: 5
+
+    BFS Path: ['brest', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris', 'caen', 'calais', 'nancy', 'dijon', 'lyon', 'avignon', 'grenoble']
+    BFS Cost: 3572
+    BFS Nodes Explored: 16
+    BFS Nodes Expanded: 17
+    BFS Nodes Maintained: 12
+
+    DLS Path: ['brest', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris', 'caen', 'calais', 'nancy', 'dijon', 'lyon', 'avignon', 'grenoble']
+    DLS Cost: 3572
+    DLS Nodes Explored: 16
+    DLS Nodes Expanded: 17
+    DLS Nodes Maintained: 12
+
+    UCS Path: ['brest', 'rennes', 'nantes', 'limoges', 'paris', 'dijon', 'lyon', 'grenoble']
+    UCS Cost: 1689
+    UCS Nodes Explored: 13
+    UCS Nodes Expanded: 15
+    UCS Nodes Maintained: 5
+
+
+nice-nantes:
+    A* Path: ['nice', 'marseille', 'avignon', 'lyon', 'limoges', 'nantes']
+    A* Cost: 1262
+    A* Nodes Explored: 5
+    A* Nodes Expanded: 11
+    A* Nodes Maintained: 7
+
+    BFS Path: ['nice', 'marseille', 'avignon', 'lyon', 'dijon', 'nancy', 'calais', 'caen', 'rennes', 'nantes']
+    BFS Cost: 2065
+    BFS Nodes Explored: 9
+    BFS Nodes Expanded: 15
+    BFS Nodes Maintained: 12
+
+    DLS Path: ['nice', 'marseille', 'avignon', 'lyon', 'dijon', 'nancy', 'calais', 'caen', 'rennes', 'nantes']
+    DLS Cost: 2065
+    DLS Nodes Explored: 9
+    DLS Nodes Expanded: 15
+    DLS Nodes Maintained: 12
+
+    UCS Path: ['nice', 'marseille', 'avignon', 'lyon', 'limoges', 'nantes']
+    UCS Cost: 1262
+    UCS Nodes Explored: 11
+    UCS Nodes Expanded: 16
+    UCS Nodes Maintained: 9
+
+
+caen-strasbourg:
+    A* Path: ['caen', 'paris', 'dijon', 'nancy', 'strasbourg']
+    A* Cost: 936
+    A* Nodes Explored: 13
+    A* Nodes Expanded: 12
+    A* Nodes Maintained: 5
+
+    BFS Path: ['caen', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris', 'dijon', 'nancy', 'strasbourg']
+    BFS Cost: 2259
+    BFS Nodes Explored: 10
+    BFS Nodes Expanded: 13
+    BFS Nodes Maintained: 12
+
+    DLS Path: ['caen', 'rennes', 'nantes', 'bordeaux', 'toulouse', 'limoges', 'paris', 'dijon', 'nancy', 'strasbourg']
+    DLS Cost: 2259
+    DLS Nodes Explored: 10
+    DLS Nodes Expanded: 13
+    DLS Nodes Maintained: 12
+
+    UCS Path: ['caen', 'paris', 'dijon', 'nancy', 'strasbourg']
+    UCS Cost: 936
+    UCS Nodes Explored: 10
+    UCS Nodes Expanded: 12
+    UCS Nodes Maintained: 5
+
+
